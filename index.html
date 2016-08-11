@@ -4,24 +4,144 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Animal by the GIF</title>
+    <title>Who's Your Animal?</title>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
 
   <body>
+    <!--Rendered Buttons inserted here -->
     <div id="animalButtons"></div>
 
     <form id="animal-form">
       <label for="animal-input">Add an animal</label>
       <input type="text" id="animal-input"><br>
 
+      <!--Button triggers new animal to be added -->
       <input id="addAnimal" type="submit" value="submit">
     </form>
 
-    <div id="animals"></div>
+    <!--Animals gifs inserted here-->
+    <div class="container">
+      <div id="animalsAppearHere"></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="assets/javascript/app.js"></script>
+    <script type="text/javascript">
+
+    // Initial array of animals
+    var animals = ['giraffe', 'lion', 'zebra', 'sparrow', 'snake', 'lemming', 'mongoose', 'koala', 'tiger', 'peacock', 'horse', 'parrot', 'meerkat', 'boar', 'horse', 'whale', 'dolphin', 'condor','eagle'];
+
+    //=================================================
+
+    // displayAnimalInfo function renders the HTML to display the appropriate content
+    function displayAnimalInfo(){
+
+      var animal = $(this).attr('data-name');
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      // Creates an AJAX call for the specific animal gif
+      $.ajax({
+        url: queryURL,
+        method: 'GET'
+      })
+
+      .done(function(response) {
+        console.log(queryURL);
+        console.log(response);
+
+        var results = response.data;
+
+        for (var i = 0; i < results.length; i++) {
+
+          var animalDiv = $('<div>');
+          animalDiv.attr('class', 'frame');
+
+          var p = $('<p>').text("Rating: " + results[i].rating);
+          var animalImage = $('<img>');
+          animalImage.attr('src', results[i].images.fixed_height_still.url);
+          animalImage.attr('class', 'animalSet');
+          animalImage.attr('data-animate', results[i].images.fixed_height.url);
+          animalImage.attr('data-still', results[i].images.fixed_height_still.url);
+          animalImage.attr('data-state', 'still');
+
+          animalDiv.append(p);
+          animalDiv.append(animalImage);
+
+          $('#animalsAppearHere').prepend(animalDiv);
+        }
+
+        });
+
+      };
+
+      $(document).on('click', '.animal', displayAnimalInfo);
+
+      //===============================================
+
+      // Generic function for displaying gif data
+      function renderButtons(){
+
+        // Deletes the gifs prior to adding new gifs
+        $('#animalButtons').empty();
+
+        //Loops through the array of gifs
+        for (var i = 0; i < animals.length; i++){
+
+          //Generate buttons dynamically
+          var a = $('<button>')
+          a.addClass('animal'); //Added a class
+          a.attr('data-name', animals[i]); //Added a data-attribute
+          a.attr('<style>')
+          a.text(animals[i]); //Initial button text
+          $('#animalButtons').append(a); //Added the button to the HTML
+        }
+      }
+
+      // When button is clicked
+      $('#addAnimal').on('click', function(){
+
+        //Grab input from textbox
+        var animal = $('#animal-input').val().trim();
+
+        //Add animal to array
+        animals.push(animal);
+
+        //Run array
+        renderButtons();
+
+        //Hit enter/click on button, stay on same page
+        return false;
+      })
+
+      //==============================================
+
+      // Generic function for displaying the AnimalInfo
+
+      $(document).on('click', '.animal', displayAnimalInfo);
+
+      //==============================================
+
+      //Calls the renderButtons() function
+      renderButtons();
+
+
+      function animateGif(){
+	        var state = $(this).attr('data-state');
+
+            if ( state == 'still'){
+                $(this).attr('src', $(this).data('animate'));
+                $(this).attr('data-state', 'animate');
+            }else{
+                $(this).attr('src', $(this).data('still'));
+                $(this).attr('data-state', 'still');
+            }
+
+	    };
+
+	 $(document).on('click', '.animalSet', animateGif);
+
+
+    </script>
   </body>
 </html>

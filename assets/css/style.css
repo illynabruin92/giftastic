@@ -1,0 +1,54 @@
+button, #addAnimal {
+  color: #258;
+  background-color: lemonchiffon;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  font: Arial;
+  font-size: 80%;
+  font-weight: bold;
+  margin: 5px;
+
+}
+
+#addAnimal {
+  margin-top: 10px;
+}
+
+body {
+  background-color: #258;
+}
+
+#animal-form {
+  font: Arial;
+  margin-left: 1100px;
+  margin-top: 100px;
+}
+
+#animalButtons {
+  margin: 20px;
+  margin-left: 50px;
+}
+
+#animal-input {
+  width: 250px;
+}
+
+label {
+    font: Arial;
+}
+
+p {
+  padding-top:10px;
+  padding-bottom: 10px;
+}
+
+.container {
+  width: 65%;
+  margin-left: 50px;
+}
+
+#animalsAppearHere {
+  margin-left: 50px;
+  display: inline;
+}
