@@ -1,6 +1,6 @@
 button, #addAnimal {
-  color: #258;
-  background-color: lemonchiffon;
+  color: white;
+  background-color: #ad1abf;
   width: 100px;
   height: 40px;
   border-radius: 10px;
@@ -13,10 +13,6 @@ button, #addAnimal {
 
 #addAnimal {
   margin-top: 10px;
-}
-
-body {
-  background-color: #258;
 }
 
 #animal-form {
